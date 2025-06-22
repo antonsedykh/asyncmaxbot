@@ -24,7 +24,7 @@ AsyncMaxBot SDK - Асинхронная библиотека для созда�
             await bot.polling(dispatcher=dp)
 """
 
-__version__ = "1.4.1"
+__version__ = "1.4.2"
 __author__ = "SDK Infotech"
 __email__ = "info@sdkinfotech.com"
 
