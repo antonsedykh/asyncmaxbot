@@ -5,7 +5,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Docs](https://img.shields.io/badge/docs-passing-brightgreen)](https://sdkinfotech.github.io/asyncmaxbot/)
 
-**AsyncMaxBot SDK** — это современная асинхронная Python библиотека для создания ботов в Max Messenger API. Библиотека предоставляет удобный и мощный API для разработки ботов с поддержкой всех современных возможностей.
+**AsyncMaxBot SDK** — это современная, асинхронная и удобная библиотека на языке Python для создания ботов для Max Messenger. Она предоставляет полный набор инструментов для взаимодействия с [официальным API Max](https://dev.max.ru/docs-api), позволяя разработчикам сосредоточиться на логике бота, а не на низкоуровневых деталях API.
+
+Библиотека разработана с учетом лучших практик асинхронного программирования и предлагает интуитивно понятный интерфейс, вдохновленный популярными фреймворками.
 
 ---
 
