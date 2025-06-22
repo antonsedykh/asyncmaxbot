@@ -378,11 +378,11 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      Быстрый старт
+      🚀 Быстрый старт
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Быстрый старт">
+    <nav class="md-nav" aria-label="🚀 Быстрый старт">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -402,7 +402,76 @@
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      Куда двигаться дальше?
+      ✨ Ключевые возможности
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✨ Ключевые возможности">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#magicfilter-f" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 MagicFilter система (F)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inline-callback" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎮 Inline клавиатуры и callback
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      📎 Работа с вложениями
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#middleware" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Middleware система
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎲 Игровые возможности
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Куда двигаться дальше?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1310" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 Версия 1.3.10
     </span>
   </a>
   
@@ -480,12 +549,12 @@
 <a href="https://github.com/sdkinfotech/asyncmaxbot/blob/main/LICENSE"><img alt="PyPI - License" src="https://img.shields.io/pypi/l/asyncmaxbot.svg" /></a></p>
 <h1 id="asyncmaxbot-sdk">Добро пожаловать в AsyncMaxBot SDK!<a class="headerlink" href="#asyncmaxbot-sdk" title="Permanent link">&para;</a></h1>
 <p>Это официальная документация по <strong>AsyncMaxBot</strong>, асинхронной Python-библиотеке для создания ботов в Max Messenger.</p>
-<p>Здесь вы найдете всё необходимое для разработки ботов любой сложности: от простых эхо-ботов до продвинутых систем с комплексной логикой.</p>
-<h2 id="_1">Быстрый старт<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>Здесь вы найдете всё необходимое для разработки ботов любой сложности: от простых эхо-ботов до продвинутых систем с комплексной логикой, inline клавиатурами и callback обработкой.</p>
+<h2 id="_1">🚀 Быстрый старт<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>Вот минимальный пример бота, который отвечает на команду <code>/start</code> и повторяет любое текстовое сообщение. Этот код полностью рабочий.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxbot</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span><span class="p">,</span> <span class="n">Dispatcher</span><span class="p">,</span> <span class="n">Context</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxbot.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">command</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxbot</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span><span class="p">,</span> <span class="n">Dispatcher</span><span class="p">,</span> <span class="n">Context</span><span class="p">,</span> <span class="n">F</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxbot.max_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">InlineKeyboardButton</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># Рекомендуется хранить токен в переменной окружения или в файле</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">TOKEN</span> <span class="o">=</span> <span class="s2">&quot;YOUR_TOKEN_HERE&quot;</span>
@@ -495,27 +564,43 @@
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="k">async</span> <span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="n">TOKEN</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>        <span class="n">dp</span> <span class="o">=</span> <span class="n">Dispatcher</span><span class="p">(</span><span class="n">bot</span><span class="p">)</span>
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>        <span class="c1"># Обработчик команды /start</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>        <span class="nd">@dp</span><span class="o">.</span><span class="n">message_handler</span><span class="p">(</span><span class="n">command</span><span class="p">(</span><span class="s2">&quot;start&quot;</span><span class="p">))</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>        <span class="c1"># Обработчик команды /start с inline клавиатурой</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>        <span class="nd">@dp</span><span class="o">.</span><span class="n">message_handler</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;start&quot;</span><span class="p">)</span>
 <a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>        <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_start</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Context</span><span class="p">):</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>            <span class="c1"># Используем .user.name для получения имени пользователя</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>            <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Привет, </span><span class="si">{</span><span class="n">ctx</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">!&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>        <span class="c1"># Обработчик для всех остальных текстовых сообщений</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>        <span class="nd">@dp</span><span class="o">.</span><span class="n">message_handler</span><span class="p">()</span>
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>        <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_echo</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Context</span><span class="p">):</span>
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>            <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">text</span><span class="p">:</span>
-<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>                <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Вы написали: </span><span class="si">{</span><span class="n">ctx</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>
-<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>        <span class="c1"># Запускаем получение обновлений</span>
-<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Бот запущен...&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>        <span class="k">await</span> <span class="n">bot</span><span class="o">.</span><span class="n">polling</span><span class="p">(</span><span class="n">dispatcher</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>
-<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>
-<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>    <span class="k">try</span><span class="p">:</span>
-<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>        <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
-<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Бот остановлен.&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>            <span class="n">keyboard</span> <span class="o">=</span> <span class="n">InlineKeyboardMarkup</span><span class="p">(</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>                <span class="n">inline_keyboard</span><span class="o">=</span><span class="p">[</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>                    <span class="p">[</span><span class="n">InlineKeyboardButton</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;🎮 Играть&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="o">=</span><span class="s2">&quot;play&quot;</span><span class="p">)],</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>                    <span class="p">[</span><span class="n">InlineKeyboardButton</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;ℹ️ Помощь&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="o">=</span><span class="s2">&quot;help&quot;</span><span class="p">)]</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>                <span class="p">]</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>            <span class="p">)</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>            <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Привет, </span><span class="si">{</span><span class="n">ctx</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">! Выберите действие:&quot;</span><span class="p">,</span> <span class="n">reply_markup</span><span class="o">=</span><span class="n">keyboard</span><span class="p">)</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>        <span class="c1"># Обработчик callback кнопок</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>        <span class="nd">@dp</span><span class="o">.</span><span class="n">callback_query_handler</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">payload</span> <span class="o">==</span> <span class="s2">&quot;play&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>        <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_play_callback</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Context</span><span class="p">):</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>            <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">answer_callback</span><span class="p">(</span><span class="s2">&quot;🎮 Начинаем игру!&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>            <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">edit_message</span><span class="p">(</span><span class="s2">&quot;Игра началась! 🎲&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>        <span class="nd">@dp</span><span class="o">.</span><span class="n">callback_query_handler</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">payload</span> <span class="o">==</span> <span class="s2">&quot;help&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>        <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_help_callback</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Context</span><span class="p">):</span>
+<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>            <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">answer_callback</span><span class="p">(</span><span class="s2">&quot;ℹ️ Справка&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>            <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">edit_message</span><span class="p">(</span><span class="s2">&quot;Это простой бот с inline клавиатурой!&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>
+<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>        <span class="c1"># Обработчик для всех остальных текстовых сообщений</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>        <span class="nd">@dp</span><span class="o">.</span><span class="n">message_handler</span><span class="p">()</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>        <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_echo</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Context</span><span class="p">):</span>
+<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>            <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">text</span><span class="p">:</span>
+<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>                <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Вы написали: </span><span class="si">{</span><span class="n">ctx</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>
+<a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>        <span class="c1"># Запускаем получение обновлений</span>
+<a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Бот запущен...&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>        <span class="k">await</span> <span class="n">bot</span><span class="o">.</span><span class="n">polling</span><span class="p">(</span><span class="n">dispatcher</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>
+<a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>
+<a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a>    <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a>        <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+<a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a>    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+<a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Бот остановлен.&quot;</span><span class="p">)</span>
 </code></pre></div>
 <h3 id="_2">Как запустить:<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
 <ol>
@@ -524,12 +609,55 @@
 <li>Замените <code>"YOUR_TOKEN_HERE"</code> на реальный токен вашего бота.</li>
 <li>Запустите его: <code>python my_bot.py</code></li>
 </ol>
-<h2 id="_3">Куда двигаться дальше?<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h2 id="_3">✨ Ключевые возможности<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="magicfilter-f">🎯 <strong>MagicFilter система (F)</strong><a class="headerlink" href="#magicfilter-f" title="Permanent link">&para;</a></h3>
+<p>Гибкая система фильтрации для создания сложных условий:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message_handler</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;привет&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">F</span><span class="o">.</span><span class="n">user_id</span> <span class="o">==</span> <span class="mi">123</span><span class="p">)</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message_handler</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;start&quot;</span> <span class="o">|</span> <span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;help&quot;</span><span class="p">))</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message_handler</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">has_attachments</span> <span class="o">==</span> <span class="kc">True</span><span class="p">)</span>
+</code></pre></div></p>
+<h3 id="inline-callback">🎮 <strong>Inline клавиатуры и callback</strong><a class="headerlink" href="#inline-callback" title="Permanent link">&para;</a></h3>
+<p>Создание интерактивных кнопок и обработка нажатий:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">keyboard</span> <span class="o">=</span> <span class="n">InlineKeyboardMarkup</span><span class="p">(</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="n">inline_keyboard</span><span class="o">=</span><span class="p">[</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>        <span class="p">[</span><span class="n">InlineKeyboardButton</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Кнопка&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="o">=</span><span class="s2">&quot;action&quot;</span><span class="p">)]</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="p">]</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="p">)</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">callback_query_handler</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">payload</span> <span class="o">==</span> <span class="s2">&quot;action&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_callback</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Context</span><span class="p">):</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">answer_callback</span><span class="p">(</span><span class="s2">&quot;Обработано!&quot;</span><span class="p">)</span>
+</code></pre></div></p>
+<h3 id="_4">📎 <strong>Работа с вложениями</strong><a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>Поддержка всех типов файлов: изображения, видео, аудио, документы:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message_handler</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">attachment</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;image&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_photo</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Context</span><span class="p">):</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="k">for</span> <span class="n">attachment</span> <span class="ow">in</span> <span class="n">ctx</span><span class="o">.</span><span class="n">attachments</span><span class="p">:</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>        <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Получено изображение: </span><span class="si">{</span><span class="n">attachment</span><span class="o">.</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div></p>
+<h3 id="middleware">🔧 <strong>Middleware система</strong><a class="headerlink" href="#middleware" title="Permanent link">&para;</a></h3>
+<p>Сквозная логика для всех обновлений:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxbot.middleware</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoggingMiddleware</span><span class="p">,</span> <span class="n">ThrottlingMiddleware</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">dp</span><span class="o">.</span><span class="n">include_middleware</span><span class="p">(</span><span class="n">LoggingMiddleware</span><span class="p">())</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">dp</span><span class="o">.</span><span class="n">include_middleware</span><span class="p">(</span><span class="n">ThrottlingMiddleware</span><span class="p">(</span><span class="n">rate_limit</span><span class="o">=</span><span class="mf">1.0</span><span class="p">))</span>
+</code></pre></div></p>
+<h3 id="_5">🎲 <strong>Игровые возможности</strong><a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p>Встроенные примеры игр (блэкджек, секретарь) с управлением состоянием.</p>
+<h2 id="_6">📚 Куда двигаться дальше?<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong><a href="api/">Руководство по API</a>:</strong> Перейдите сюда для подробного изучения всех компонентов, классов и методов SDK.</li>
-<li><strong><a href="examples/">Примеры кода</a>:</strong> Изучите новую страницу с "живыми" примерами кода.</li>
+<li><strong><a href="examples/">Примеры кода</a>:</strong> Изучите новую страницу с "живыми" примерами кода, включая игры и продвинутые сценарии.</li>
 <li><strong><a href="https://pypi.org/project/asyncmaxbot/">Страница проекта на PyPI</a>:</strong> Посетите страницу проекта для получения информации об установке и версиях.</li>
 </ul>
+<h2 id="1310">🔄 Версия 1.3.10<a class="headerlink" href="#1310" title="Permanent link">&para;</a></h2>
+<p>Текущая версия включает:
+- ✅ MagicFilter систему для гибкой фильтрации
+- ✅ Inline клавиатуры и callback обработку
+- ✅ Расширенную систему вложений
+- ✅ Middleware архитектуру
+- ✅ Полную типизацию с Pydantic
+- ✅ Комплексные примеры и тесты</p>
 
 
 
