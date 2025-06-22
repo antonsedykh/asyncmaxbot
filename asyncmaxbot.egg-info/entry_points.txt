@@ -1,0 +1,2 @@
+[console_scripts]
+asyncmaxbot = maxbot.cli:main
