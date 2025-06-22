@@ -8,19 +8,19 @@
 
 ```mermaid
 graph TD
-    A[Пользователь отправляет сообщение] --> B[Max API];
-    B --> C{bot.polling};
-    C --"JSON-обновление"--> D[Dispatcher];
-    D --"Передает в MiddlewareManager"--> E[MiddlewareManager];
-    E --"Исполняет Middleware"--> F[Парсинг в Pydantic-модели];
-    F --"Создает Context"--> G[Context];
-    G --"Проверяет фильтры"--> H{Фильтры: F, command, text, ...};
-    H --"ДА"--> I[Вызов вашего обработчика];
-    I --"Использует Context для ответа"--> J{ctx.reply()};
-    J --"Вызывает метод Bot"--> K[Bot.send_message];
-    K --"HTTP-запрос"--> B;
-    B --> L[Пользователь получает ответ];
-    H --"НЕТ"--> M[Поиск следующего обработчика];
+    A["Пользователь отправляет сообщение"] --> B["Max API"]
+    B --> C{"bot.polling"}
+    C --"JSON-обновление"--> D["Dispatcher"]
+    D --"Передает в MiddlewareManager"--> E["MiddlewareManager"]
+    E --"Исполняет Middleware"--> F["Парсинг в Pydantic-модели"]
+    F --"Создает Context"--> G["Context"]
+    G --"Проверяет фильтры"--> H{"Фильтры: F, command, text, ..."}
+    H --"ДА"--> I["Вызов вашего обработчика"]
+    I --"Использует Context для ответа"--> J["ctx reply"]
+    J --"Вызывает метод Bot"--> K["Bot send_message"]
+    K --"HTTP-запрос"--> B
+    B --> L["Пользователь получает ответ"]
+    H --"НЕТ"--> M["Поиск следующего обработчика"]
 ```
 
 **Поток обработки:**
