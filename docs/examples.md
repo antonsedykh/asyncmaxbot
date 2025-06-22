@@ -15,39 +15,31 @@
 """
 
 import asyncio
-import os
 from maxbot import Bot, Dispatcher, Context, F
 from maxbot.filters import command, text
 from maxbot.middleware import LoggingMiddleware, ErrorHandlingMiddleware
 
-# Загружаем токен из файла
-def get_token():
-    token_file = "token.txt"
-    if os.path.exists(token_file):
-        with open(token_file, 'r') as f:
-            return f.read().strip()
-    return os.environ.get("MAXBOT_TOKEN", "YOUR_TOKEN_HERE")
-
-TOKEN = get_token()
+# ⚠️ Вставьте ваш токен сюда
+TOKEN = "YOUR_TOKEN_HERE"
 
 class EchoBot:
     """Эхо-бот с стандартной архитектурой"""
-    
+
     def __init__(self):
         self.bot = Bot(TOKEN)
         self.dp = Dispatcher(self.bot)
         self.setup_middleware()
         self.setup_handlers()
         self.stats = {"messages": 0, "users": set()}
-    
+
     def setup_middleware(self):
         """Настройка базового middleware"""
         self.dp.include_middleware(LoggingMiddleware())
         self.dp.include_middleware(ErrorHandlingMiddleware())
-    
+
     def setup_handlers(self):
         """Настройка обработчиков"""
-        
+
         @self.dp.message_handler(F.command == "start")
         async def start_handler(ctx: Context):
             await ctx.reply(
@@ -57,7 +49,7 @@ class EchoBot:
                 "🔄 /echo — режим эхо\n"
                 "❓ /help — эта справка"
             )
-        
+
         @self.dp.message_handler(F.command == "help")
         async def help_handler(ctx: Context):
             await ctx.reply(
@@ -67,27 +59,27 @@ class EchoBot:
                 "🔄 /echo — включить режим эхо\n"
                 "❓ /help — эта справка"
             )
-        
+
         @self.dp.message_handler(F.command == "stats")
         async def stats_handler(ctx: Context):
             self.stats["messages"] += 1
             self.stats["users"].add(ctx.user_id)
-            
+
             await ctx.reply(
                 f"📊 Статистика:\n"
                 f"💬 Сообщений: {self.stats['messages']}\n"
                 f"👥 Уникальных пользователей: {len(self.stats['users'])}"
             )
-        
+
         @self.dp.message_handler(F.command == "echo")
         async def echo_mode_handler(ctx: Context):
             await ctx.reply("🔄 Режим эхо включен! Напиши что-нибудь.")
-        
+
         @self.dp.message_handler(F.text.contains("привет"))
         async def hello_handler(ctx: Context):
             emoji = "🦜" if "привет" in ctx.text.lower() else "📢"
             await ctx.reply(f"{emoji} {ctx.text}")
-        
+
         @self.dp.message_handler()
         async def echo_handler(ctx: Context):
             """
@@ -99,21 +91,21 @@ class EchoBot:
             """
             self.stats["messages"] += 1
             self.stats["users"].add(ctx.user_id)
-            
+
             if ctx.text and ctx.text.startswith("/"):
                 await ctx.reply("❓ Неизвестная команда. Напиши /help")
             elif ctx.text:
                 emoji = "🦜" if "привет" in ctx.text.lower() else "📢"
                 await ctx.reply(f"{emoji} {ctx.text}")
-    
+
     async def run(self):
         """Запуск бота"""
         print("🤖 Эхо-бот запущен!")
-        
+
         async with self.bot:
             me = await self.bot.get_me()
             print(f"🤖 Бот: {me['name']} (ID: {me['user_id']})")
-            
+
             await self.bot.polling(dispatcher=self.dp)
 
 async def main():
@@ -343,18 +335,16 @@ if __name__ == "__main__":
 ```
 
 **Что демонстрирует:**
-- Использование inline клавиатур с кнопками
-- Обработку callback-запросов
-- MagicFilter систему (`F.command`, `F.payload`)
-- Редактирование сообщений
-- Управление состоянием игры
-- Полноценную игровую логику
+- Работу с `Inline` клавиатурами и `Callback` обработчиками
+- Использование `MagicFilter` (`F.payload == "..."`) для фильтрации `callback`
+- Управление состоянием игры для каждого пользователя (`GAMES` словарь)
+- Редактирование сообщений (`ctx.edit_message`)
 
 ---
 
-## 3. Router система (Модульная архитектура)
+## 3. Router система (Модульная архитектура) 🏗️
 
-Пример использования Router системы для создания модульной архитектуры.
+Пример показывает, как использовать роутеры для разделения логики бота на независимые модули (команды, callbacks, события).
 
 ```python
 """
@@ -513,374 +503,108 @@ if __name__ == "__main__":
 ```
 
 **Что демонстрирует:**
-- Создание и использование роутеров
-- Изоляцию логики по типам обработчиков
-- Обработку расширенных событий (версия 1.4+)
-- Модульную архитектуру проекта
-- Навигацию по меню с callback
+- Разделение обработчиков на логические блоки с помощью `Router`
+- Подключение роутеров к главному диспетчеру (`dp.include_router`)
+- Обработку системных событий (`bot_started`, `user_added`, `chat_member_updated`)
 
 ---
 
-## 4. Бот-секретарь с Inline клавиатурами 👔
+## 4. Бот-секретарь с Inline клавиатурами  secretary
 
-Полноценный бот-секретарь с inline-клавиатурами, управлением заявками, напоминаниями и статистикой.
+Бот для управления задачами с разными уровнями доступа.
 
 ```python
 """
-Бот-секретарь - стандартная архитектура
-Демонстрирует работу с состоянием и данными
+Бот-секретарь - исправленный рабочий пример
+Демонстрирует продвинутые возможности библиотеки AsyncMaxBot SDK 1.4.2:
+- Inline клавиатуры
+- Callback обработка
+- MagicFilter система
+- Router система
+- Middleware
 """
-
 import asyncio
-import os
-from datetime import datetime
-from maxbot import Bot
-from maxbot.dispatcher import Dispatcher
-from maxbot.filters import command, text, has_attachment, F
-from maxbot.middleware import MiddlewareManager, LoggingMiddleware, ErrorHandlingMiddleware
-from maxbot.max_types import Context, InlineKeyboardMarkup, InlineKeyboardButton
+from maxbot import Bot, Dispatcher, Router, F, Context
+from maxbot.max_types import InlineKeyboardMarkup, InlineKeyboardButton
 
-TOKEN = "YOUR_TOKEN_HERE"  # Замените на ваш токен
+TOKEN = "YOUR_TOKEN_HERE"
 
-class SecretaryBot:
-    """Бот-секретарь с стандартной архитектурой"""
+# База данных задач (in-memory)
+TASKS = {
+    1: {"title": "Подготовить отчет", "status": "в процессе"},
+    2: {"title": "Заказать пиццу", "status": "новая"},
+    3: {"title": "Позвонить клиенту", "status": "выполнена"},
+}
+
+# --- Роутер для команд ---
+commands_router = Router()
+
+@commands_router.message_handler(F.command == "start")
+async def start_command(ctx: Context):
+    keyboard = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="📋 Список задач", payload="tasks_list")],
+            [InlineKeyboardButton(text="➕ Новая задача", payload="new_task")]
+        ]
+    )
+    await ctx.reply("👩‍💼 Бот-секретарь готов к работе. Выберите действие:", reply_markup=keyboard)
+
+
+# --- Роутер для Callback ---
+callback_router = Router()
+
+@callback_router.callback_query_handler(F.payload == "tasks_list")
+async def tasks_list_callback(ctx: Context):
+    if not TASKS:
+        await ctx.answer_callback("📭 Список задач пуст")
+        return
     
-    def __init__(self):
-        self.bot = Bot(TOKEN)
-        self.dp = Dispatcher(self.bot)
-        self.setup_middleware()
-        self.setup_handlers()
-        self.applications = []
-        self.reminders = {}
-    
-    def setup_middleware(self):
-        """Настройка базового middleware"""
-        manager = MiddlewareManager()
-        manager.add_middleware(LoggingMiddleware())
-        manager.add_middleware(ErrorHandlingMiddleware())
-        self.dp.middleware_manager = manager
-    
-    def get_main_keyboard(self):
-        """Главная клавиатура"""
-        return InlineKeyboardMarkup(
-            inline_keyboard=[
-                [
-                    InlineKeyboardButton(text="📝 Новая заявка", payload="new_application"),
-                    InlineKeyboardButton(text="📋 Мои заявки", payload="list_applications")
-                ],
-                [
-                    InlineKeyboardButton(text="⏰ Напоминание", payload="set_reminder"),
-                    InlineKeyboardButton(text="📊 Статистика", payload="statistics")
-                ],
-                [
-                    InlineKeyboardButton(text="❓ Помощь", payload="help")
-                ]
-            ]
-        )
-    
-    def get_application_keyboard(self):
-        """Клавиатура для заявок"""
-        return InlineKeyboardMarkup(
-            inline_keyboard=[
-                [
-                    InlineKeyboardButton(text="📄 Общая", payload="category_general"),
-                    InlineKeyboardButton(text="🔧 Техподдержка", payload="category_support")
-                ],
-                [
-                    InlineKeyboardButton(text="💰 Финансы", payload="category_finance"),
-                    InlineKeyboardButton(text="📈 Проект", payload="category_project")
-                ],
-                [
-                    InlineKeyboardButton(text="🔙 Назад", payload="back_to_main")
-                ]
-            ]
-        )
-    
-    def setup_handlers(self):
-        """Настройка обработчиков"""
+    response = "📋 **Ваши задачи:**\n\n"
+    for task_id, task in TASKS.items():
+        icon = "✅" if task["status"] == "выполнена" else "📝"
+        response += f"{icon} {task_id}: {task['title']} ({task['status']})\n"
         
-        @self.dp.message_handler(command("start"))
-        async def start_handler(ctx: Context):
-            await ctx.reply(
-                f"👋 Здравствуйте, {ctx.user.name}! Я ваш виртуальный секретарь.\n\n"
-                "📋 Выберите действие:",
-                reply_markup=self.get_main_keyboard()
-            )
-        
-        @self.dp.message_handler(text(["привет", "здравствуйте", "добрый день", "доброе утро", "добрый вечер"]))
-        async def greeting_handler(ctx: Context):
-            await ctx.reply(
-                f"👋 Здравствуйте, {ctx.user.name}! Я ваш виртуальный секретарь.\n\n"
-                "📋 Выберите действие:",
-                reply_markup=self.get_main_keyboard()
-            )
-        
-        @self.dp.message_handler(text("помощь"))
-        async def help_handler(ctx: Context):
-            await ctx.reply(
-                "❓ Помощь по командам:\n\n"
-                "📝 заявка: [текст] — создать новую заявку\n"
-                "📋 список заявок — показать ваши заявки\n"
-                "⏰ напомни — установить напоминание\n"
-                "📊 статистика — показать статистику\n"
-                "❓ помощь — эта справка\n\n"
-                "💡 Пример: заявка: Нужна консультация по проекту",
-                reply_markup=self.get_main_keyboard()
-            )
-        
-        @self.dp.message_handler(text("статистика"))
-        async def stats_handler(ctx: Context):
-            user_apps = [a for a in self.applications if a['user_id'] == ctx.user_id]
-            total_apps = len(self.applications)
-            
-            await ctx.reply(
-                f"📊 Статистика:\n\n"
-                f"📋 Всего заявок в системе: {total_apps}\n"
-                f"👤 Ваших заявок: {len(user_apps)}\n"
-                f"📝 Новых заявок: {len([a for a in user_apps if a['status'] == '📝 Новая'])}\n"
-                f"⏰ Активных напоминаний: {len(self.reminders)}",
-                reply_markup=self.get_main_keyboard()
-            )
-        
-        @self.dp.message_handler(text("напомни"))
-        async def reminder_handler(ctx: Context):
-            self.reminders[ctx.user_id] = datetime.now()
-            await ctx.reply(
-                "⏰ Напоминание установлено!\n"
-                "🔔 Я напомню вам проверить заявки через час.",
-                reply_markup=self.get_main_keyboard()
-            )
-        
-        @self.dp.message_handler(text("список заявок"))
-        async def list_applications_handler(ctx: Context):
-            user_apps = [a for a in self.applications if a['user_id'] == ctx.user_id]
-            
-            if user_apps:
-                apps_text = "📋 Ваши заявки:\n\n"
-                for app in user_apps[-5:]:  # Последние 5
-                    apps_text += f"🔸 #{app['id']} ({app['date']})\n"
-                    apps_text += f"   {app['status']} {app['category']}\n"
-                    apps_text += f"   📝 {app['text'][:50]}{'...' if len(app['text']) > 50 else ''}\n\n"
-                await ctx.reply(apps_text, reply_markup=self.get_main_keyboard())
-            else:
-                await ctx.reply("📭 У вас пока нет заявок.", reply_markup=self.get_main_keyboard())
-        
-        @self.dp.message_handler(has_attachment(True))
-        async def attachment_handler(ctx: Context):
-            """
-            Обрабатывает любое сообщение, содержащее вложения.
-            Демонстрирует использование фильтра `has_attachment`.
-            """
-            attachment_types = [att.type for att in ctx.attachments]
-            await ctx.reply(f"Вижу вложения! Типы: {', '.join(attachment_types)}. Сохраняю в архив.", reply_markup=self.get_main_keyboard())
-            print(f"User {ctx.user_id} sent attachments: {attachment_types}")
-        
-        @self.dp.message_handler()
-        async def no_attachment_handler(ctx: Context):
-            """Обрабатывает сообщения без вложений."""
-            await ctx.reply("Это сообщение без вложений, я его проигнорирую.", reply_markup=self.get_main_keyboard())
-        
-        @self.dp.message_handler()
-        async def application_handler(ctx: Context):
-            if ctx.text.startswith("заявка:"):
-                application_text = ctx.text[7:].strip()
-                if application_text:
-                    app = {
-                        "id": len(self.applications) + 1,
-                        "user_id": ctx.user_id,
-                        "user_name": ctx.user.name,
-                        "text": application_text,
-                        "status": "📝 Новая",
-                        "date": datetime.now().strftime("%d.%m.%Y %H:%M"),
-                        "category": "📄 Общая"
-                    }
-                    self.applications.append(app)
-                    await ctx.reply(
-                        f"✅ Заявка #{app['id']} принята!\n"
-                        f"📝 Текст: {application_text}\n"
-                        f"📅 Дата: {app['date']}\n"
-                        f"📊 Всего заявок: {len(self.applications)}",
-                        reply_markup=self.get_main_keyboard()
-                    )
-                else:
-                    await ctx.reply("❌ Пожалуйста, укажите текст заявки после двоеточия.", reply_markup=self.get_main_keyboard())
-            else:
-                await ctx.reply(
-                    "🤔 Не понимаю команду. Напишите 'помощь' для справки.",
-                    reply_markup=self.get_main_keyboard()
-                )
-        
-        # Callback обработчики для кнопок
-        @self.dp.callback_query_handler(F.payload == "new_application")
-        async def new_application_callback(ctx: Context):
-            await ctx.answer_callback("📝 Выберите категорию заявки:")
-            await ctx.edit_message(
-                "📝 Создание новой заявки\n\n"
-                "Выберите категорию:",
-                reply_markup=self.get_application_keyboard()
-            )
-        
-        @self.dp.callback_query_handler(F.payload == "list_applications")
-        async def list_applications_callback(ctx: Context):
-            user_apps = [a for a in self.applications if a['user_id'] == ctx.user_id]
-            
-            if user_apps:
-                apps_text = "📋 Ваши заявки:\n\n"
-                for app in user_apps[-5:]:  # Последние 5
-                    apps_text += f"🔸 #{app['id']} ({app['date']})\n"
-                    apps_text += f"   {app['status']} {app['category']}\n"
-                    apps_text += f"   📝 {app['text'][:50]}{'...' if len(app['text']) > 50 else ''}\n\n"
-                await ctx.answer_callback("📋 Ваши заявки:")
-                await ctx.edit_message(apps_text, reply_markup=self.get_main_keyboard())
-            else:
-                await ctx.answer_callback("📭 У вас пока нет заявок")
-                await ctx.edit_message("📭 У вас пока нет заявок.", reply_markup=self.get_main_keyboard())
-        
-        @self.dp.callback_query_handler(F.payload == "set_reminder")
-        async def set_reminder_callback(ctx: Context):
-            self.reminders[ctx.user_id] = datetime.now()
-            await ctx.answer_callback("⏰ Напоминание установлено!")
-            await ctx.edit_message(
-                "⏰ Напоминание установлено!\n"
-                "🔔 Я напомню вам проверить заявки через час.",
-                reply_markup=self.get_main_keyboard()
-            )
-        
-        @self.dp.callback_query_handler(F.payload == "statistics")
-        async def statistics_callback(ctx: Context):
-            user_apps = [a for a in self.applications if a['user_id'] == ctx.user_id]
-            total_apps = len(self.applications)
-            
-            await ctx.answer_callback("📊 Статистика загружена")
-            await ctx.edit_message(
-                f"📊 Статистика:\n\n"
-                f"📋 Всего заявок в системе: {total_apps}\n"
-                f"👤 Ваших заявок: {len(user_apps)}\n"
-                f"📝 Новых заявок: {len([a for a in user_apps if a['status'] == '📝 Новая'])}\n"
-                f"⏰ Активных напоминаний: {len(self.reminders)}",
-                reply_markup=self.get_main_keyboard()
-            )
-        
-        @self.dp.callback_query_handler(F.payload == "help")
-        async def help_callback(ctx: Context):
-            await ctx.answer_callback("❓ Справка")
-            await ctx.edit_message(
-                "❓ Помощь по командам:\n\n"
-                "📝 заявка: [текст] — создать новую заявку\n"
-                "📋 список заявок — показать ваши заявки\n"
-                "⏰ напомни — установить напоминание\n"
-                "📊 статистика — показать статистику\n"
-                "❓ помощь — эта справка\n\n"
-                "💡 Пример: заявка: Нужна консультация по проекту",
-                reply_markup=self.get_main_keyboard()
-            )
-        
-        @self.dp.callback_query_handler(F.payload == "back_to_main")
-        async def back_to_main_callback(ctx: Context):
-            await ctx.answer_callback("🔙 Возвращаемся в главное меню")
-            await ctx.edit_message(
-                f"👋 Здравствуйте, {ctx.user.name}! Я ваш виртуальный секретарь.\n\n"
-                "📋 Выберите действие:",
-                reply_markup=self.get_main_keyboard()
-            )
-        
-        # Обработчики категорий заявок
-        @self.dp.callback_query_handler(F.payload.startswith("category_"))
-        async def category_callback(ctx: Context):
-            category = ctx.payload.replace("category_", "")
-            category_names = {
-                "general": "📄 Общая",
-                "support": "🔧 Техподдержка", 
-                "finance": "💰 Финансы",
-                "project": "📈 Проект"
-            }
-            
-            await ctx.answer_callback(f"📝 Категория {category_names.get(category, 'Общая')} выбрана")
-            await ctx.edit_message(
-                f"📝 Создание заявки в категории: {category_names.get(category, 'Общая')}\n\n"
-                "💬 Напишите текст заявки в формате:\n"
-                "заявка: [ваш текст]",
-                reply_markup=self.get_main_keyboard()
-            )
-    
-    async def check_reminders(self):
-        """Проверка напоминаний"""
-        current_time = datetime.now()
-        for user_id, reminder_time in list(self.reminders.items()):
-            if (current_time - reminder_time).seconds > 3600:  # Через час
-                await self.bot.send_message(
-                    "🔔 Напоминание!\n"
-                    "📋 Не забудьте проверить свои заявки.",
-                    user_id=user_id
-                )
-                del self.reminders[user_id]
-    
-    async def run(self):
-        """Запуск бота"""
-        print("👔 Бот-секретарь запущен!")
-        
-        async with self.bot:
-            me = await self.bot.get_me()
-            print(f"🤖 Бот: {me['name']} (ID: {me['user_id']})")
-            
-            # Запускаем проверку напоминаний в фоне
-            asyncio.create_task(self.reminder_loop())
-            
-            await self.bot.polling(
-                dispatcher=self.dp,
-                timeout=1,
-                long_polling_timeout=30
-            )
-    
-    async def reminder_loop(self):
-        """Цикл проверки напоминаний"""
-        while True:
-            await self.check_reminders()
-            await asyncio.sleep(60)  # Проверяем каждую минуту
+    await ctx.answer_callback("📋 Задачи загружены")
+    await ctx.edit_message(response)
+
+
+@callback_router.callback_query_handler(F.payload == "new_task")
+async def new_task_callback(ctx: Context):
+    await ctx.answer_callback("➕ Создание задачи")
+    await ctx.edit_message("📝 Введите название новой задачи:")
+    # Здесь можно добавить логику для ожидания ответа пользователя
 
 async def main():
-    bot = SecretaryBot()
-    try:
-        await bot.run()
-    except KeyboardInterrupt:
-        print("\n🛑 Бот остановлен")
+    async with Bot(token=TOKEN) as bot:
+        dp = Dispatcher(bot)
+        dp.include_router(commands_router)
+        dp.include_router(callback_router)
+        
+        print("👩‍💼 Бот-секретарь запущен!")
+        await bot.polling(dispatcher=dp)
 
 if __name__ == "__main__":
     asyncio.run(main())
+
 ```
 
 **Что демонстрирует:**
-- Полноценную систему inline-клавиатур с навигацией
-- Обработку callback-запросов с правильными фильтрами F.payload
-- Управление состоянием приложения (заявки, напоминания)
-- Обработку вложений с фильтром has_attachment
-- Фоновые задачи (проверка напоминаний)
-- Редактирование сообщений с клавиатурами
-- Категоризацию заявок через callback
-- Middleware систему для логирования и обработки ошибок
+- Создание простого CRUD-подобного интерфейса
+- Динамическое формирование списка задач
+- Более сложную логику взаимодействия через `callback`
+
 
 ---
 
-## Заключение
+### Заключение
 
 Эти примеры демонстрируют все основные возможности AsyncMaxBot SDK версии 1.4.2:
-
 - ✅ **Базовая архитектура** с классами Bot, Dispatcher, Context
-- ✅ **MagicFilter систему** для гибкой фильтрации (F.command, F.payload, F.text)
-- ✅ **Inline клавиатуры и callback** обработку с навигацией
-- ✅ **Router систему** для модульной архитектуры
-- ✅ **Обработку вложений** всех типов с фильтром has_attachment
-- ✅ **Расширенные события** (версия 1.4+)
-- ✅ **Управление состоянием** приложения (заявки, игры, статистика)
-- ✅ **Фоновые задачи** и напоминания
-- ✅ **Редактирование сообщений** с клавиатурами
-- ✅ **Middleware систему** для логирования и обработки ошибок
-- ✅ **Полную типизацию** с Pydantic
+- ✅ **Фильтры** через MagicFilter (`F.text`, `F.command`, `F.payload`)
+- ✅ **Inline клавиатуры** для интерактивного взаимодействия
+- ✅ **Callback обработка** для кнопок
+- ✅ **Middleware** для логирования, троттлинга, обработки ошибок
+- ✅ **Роутеры** для разделения логики
+- ✅ **Обработка событий** (запуск бота, добавление пользователя и т.д.)
 
-**Включенные примеры:**
-1. **Эхо-бот** — базовые возможности и обработка сообщений
-2. **Блэкджек** — игры с inline-клавиатурами и callback
-3. **Router система** — модульная архитектура и расширенные события  
-4. **Бот-секретарь** — полноценное приложение с управлением состоянием
-
-Все примеры полностью рабочие и готовы к использованию. Просто замените `YOUR_TOKEN_HERE` на реальный токен вашего бота и запускайте! 
+Все примеры можно найти в папке `examples` репозитория. 

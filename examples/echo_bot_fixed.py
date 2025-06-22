@@ -4,20 +4,12 @@
 """
 
 import asyncio
-import os
 from maxbot import Bot, Dispatcher, Context, F
 from maxbot.filters import command, text
 from maxbot.middleware import LoggingMiddleware, ErrorHandlingMiddleware
 
-# Загружаем токен из файла
-def get_token():
-    token_file = "token.txt"
-    if os.path.exists(token_file):
-        with open(token_file, 'r') as f:
-            return f.read().strip()
-    return os.environ.get("MAXBOT_TOKEN", "YOUR_TOKEN_HERE")
-
-TOKEN = get_token()
+# ⚠️ Вставьте ваш токен сюда
+TOKEN = "YOUR_TOKEN_HERE"
 
 class EchoBot:
     """Эхо-бот с стандартной архитектурой"""
